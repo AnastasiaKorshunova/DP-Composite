@@ -6,21 +6,17 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Преобразует инфиксную строку (например, "3+4*2/(1-5)") в список токенов
- * в <strong>обратной польской нотации</strong> (RPN) с помощью алгоритма Дейкстры.
- */
 public final class ReversePolishConverter {
 
     private static final Map<String, Integer> PRIORITY = Map.of(
-            "+", 1, "-", 1,
-            "*", 2, "/", 2,
-            "(", 0, ")", 0
+            "+", 1,
+            "-", 1,
+            "*", 2,
+            "/", 2,
+            "(", 0,
+            ")", 0
     );
 
-    /**
-     * @return список токенов в порядке RPN (готов для стек‑вычисления)
-     */
     public List<String> toRpn(String infixExpr) {
         List<String> output = new ArrayList<>();
         Deque<String> stack = new ArrayDeque<>();
@@ -31,7 +27,7 @@ public final class ReversePolishConverter {
             if (Character.isDigit(ch)) {
                 number.append(ch);
             } else {
-                if (number.length() > 0) {  // сброс накопленного числа
+                if (!number.isEmpty()) {  // сброс накопленного числа
                     output.add(number.toString());
                     number.setLength(0);
                 }
@@ -46,7 +42,7 @@ public final class ReversePolishConverter {
                         }
                         if (!stack.isEmpty() && "(".equals(stack.peek())) stack.pop();
                         break;
-                    default: // оператор
+                    default:
                         while (!stack.isEmpty() && PRIORITY.get(token) <= PRIORITY.get(stack.peek())) {
                             output.add(stack.pop());
                         }
@@ -54,8 +50,12 @@ public final class ReversePolishConverter {
                 }
             }
         }
-        if (number.length() > 0) output.add(number.toString());
-        while (!stack.isEmpty()) output.add(stack.pop());
+        if (!number.isEmpty()) {
+            output.add(number.toString());
+        }
+        while (!stack.isEmpty()) {
+            output.add(stack.pop());
+        }
         return output;
     }
 }

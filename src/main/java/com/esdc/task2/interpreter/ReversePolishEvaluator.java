@@ -6,9 +6,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Вычисляет значение выражения, представленного списком токенов в RPN.
- */
 public final class ReversePolishEvaluator {
 
     private static final Map<String, java.util.function.BiFunction<Double, Double, Double>> BIN_OP = Map.of(
