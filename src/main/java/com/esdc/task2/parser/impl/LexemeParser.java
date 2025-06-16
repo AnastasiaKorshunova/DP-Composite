@@ -1,17 +1,25 @@
-package com.esdc.task2.parser;
+package com.esdc.task2.parser.impl;
 
 import com.esdc.task2.composite.TextComponent;
 import com.esdc.task2.composite.impl.Lexeme;
 import com.esdc.task2.composite.impl.Word;
+import com.esdc.task2.parser.BaseParser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LexemeParser extends AbstractParser {
+public class LexemeParser implements BaseParser {
     private static final String MATH_EXPRESSION = "^[0-9+\\-*/().\\s]+$";
     private final Pattern wordsSymbolsPattern = Pattern.compile("(\\p{Alnum}+)|(\\P{Alnum})");
+    private BaseParser nextBaseParser;
+
+    @Override
+    public BaseParser linkWith(BaseParser next) {
+        this.nextBaseParser = next;
+        return next;
+    }
 
     @Override
     public List<TextComponent> parse(String data) {
@@ -24,6 +32,11 @@ public class LexemeParser extends AbstractParser {
             textComponents.add(parseLexeme(split));
         }
         return textComponents;
+    }
+
+    @Override
+    public BaseParser getNext() {
+        return nextBaseParser;
     }
 
     private Lexeme parseLexeme(String data) {
