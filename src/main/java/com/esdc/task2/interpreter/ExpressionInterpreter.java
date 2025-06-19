@@ -1,13 +1,8 @@
 package com.esdc.task2.interpreter;
 
-import java.util.List;
+public class ExpressionInterpreter {
 
-public final class ExpressionInterpreter {
-    private final ReversePolishConverter converter = new ReversePolishConverter();
-    private final ReversePolishEvaluator evaluator = new ReversePolishEvaluator();
-
-    public double evaluate(String infix) {
-        List<String> rpn = converter.toRpn(infix);
-        return evaluator.evaluate(rpn);
+    public int evaluate(String expr) {
+        return new Parser(expr).parse().interpret();
     }
 }

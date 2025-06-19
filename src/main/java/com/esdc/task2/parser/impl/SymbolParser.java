@@ -1,32 +1,20 @@
 package com.esdc.task2.parser.impl;
 
 import com.esdc.task2.composite.TextComponent;
-import com.esdc.task2.composite.impl.Symbol;
-import com.esdc.task2.parser.BaseParser;
+import com.esdc.task2.composite.impl.TextComponentSymbol;
+import com.esdc.task2.parser.AbstractBaseParser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SymbolParser implements BaseParser {
-    private BaseParser nextBaseParser;
-
-    @Override
-    public BaseParser linkWith(BaseParser next) {
-        this.nextBaseParser = next;
-        return next;
-    }
+public class SymbolParser extends AbstractBaseParser {
 
     @Override
     public List<TextComponent> parse(String data) {
         List<TextComponent> textComponents = new ArrayList<>();
-        for(Character c: data.toCharArray()) {
-            textComponents.add(new Symbol(c));
+        for (Character c : data.toCharArray()) {
+            textComponents.add(new TextComponentSymbol(c));
         }
         return textComponents;
-    }
-
-    @Override
-    public BaseParser getNext() {
-        return nextBaseParser;
     }
 }

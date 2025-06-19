@@ -7,29 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Sentence implements TextComponent {
-    private final List<TextComponent> children = new ArrayList<>();
-    private final TextComponentType type = TextComponentType.SENTENCE;
+public class TextComponentLeaf implements TextComponent {
 
-    public Sentence() {
+    private final TextComponentType type;
+    private final List<TextComponent> children = new ArrayList<>();
+
+    public TextComponentLeaf(TextComponentType type) {
+        this.type = type;
     }
 
     @Override
     public TextComponentType getType() {
         return type;
-    }
-
-    @Override
-    public int length() {
-        return children.size();
-    }
-
-    @Override
-    public List<TextComponent> getComponents(TextComponentType type) {
-        if (type == TextComponentType.SENTENCE) {
-            return List.of(this);
-        }
-        return children.stream().flatMap(m -> m.getComponents(type).stream()).collect(Collectors.toList());
     }
 
     @Override
@@ -43,9 +32,14 @@ public class Sentence implements TextComponent {
     }
 
     @Override
+    public List<TextComponent> getChildren() {
+        return children;
+    }
+
+    @Override
     public String toString() {
         return children.stream()
                 .map(TextComponent::toString)
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.joining(type.getDelimiter()));
     }
 }

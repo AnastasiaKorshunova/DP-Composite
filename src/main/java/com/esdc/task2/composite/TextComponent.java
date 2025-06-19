@@ -6,11 +6,9 @@ public interface TextComponent {
 
     TextComponentType getType();
 
-    int length();
-
-    List<TextComponent> getComponents(TextComponentType type);
-
     boolean removeComponent(TextComponent component);
 
     void addChild(TextComponent component);
+
+    List<TextComponent> getChildren();
 }
